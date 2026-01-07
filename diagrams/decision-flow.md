@@ -49,7 +49,7 @@ flowchart TD
     ProtectionLevel -->|Medium| WarnContinue[Warn + Require Confirmation]
     WarnContinue --> ExecuteSafe
     
-    LegacyCheck -->|No| ExecuteSafe[Execute Operation Safely]
+    LegacyCheck -->|No| ExecuteSafe[Execute or Propose Operation Safely]
     ProtectionLevel -->|Low| ExecuteSafe
     
     ExecuteSafe --> Validate{Validation<br/>Passed?}
@@ -100,7 +100,8 @@ flowchart TD
 1. **Pre-Flight Check**: Validates all prerequisites before any code generation
 2. **Confidence Threshold**: Matches risk level to required confidence percentage
 3. **Ambiguity Detection**: Forces explicit clarification when multiple valid paths exist
-4. **Legacy Protection**: Prevents unintended changes to critical existing code
+4. **Legacy Protection**: Prevents unintended changes to critical existing code. High protection always requires explicit human authorization.
+The agent cannot downgrade protection levels on its own.
 5. **Validation**: Ensures changes meet quality standards before committing
 
 ## Stop Conditions
