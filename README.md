@@ -184,6 +184,16 @@ The focus is not on tools or models, but on **decision points that block uncerta
 
 ---
 
+## Decision Flow Diagram
+
+A complete flowchart showing the protocol's decision-making process is available here:
+
+→ [`diagrams/decision-flow.md`](diagrams/decision-flow.md)
+
+The diagram illustrates all validation steps, stop conditions, and confidence thresholds that govern AI behavior under this protocol.
+
+---
+
 ## Tool & Model Independence
 
 This protocol is fully **model-agnostic** and **tool-agnostic**.
