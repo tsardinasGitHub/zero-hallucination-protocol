@@ -178,7 +178,7 @@ The example demonstrates how the system stops, clarifies intent, and waits befor
 
 The following diagram shows a simplified view of the protocol flow:
 
-![Zero-Hallucination Protocol – simplified architecture](diagrams/zero-hallucination-protocol.png)
+![Zero-Hallucination Protocol – simplified architecture](diagrams/less-ambiguities-less-hallucinations.png)
 
 The focus is not on tools or models, but on **decision points that block uncertainty**.
 
