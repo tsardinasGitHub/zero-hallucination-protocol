@@ -7,18 +7,18 @@
 
 ## What This Is
 
-The **Zero-Hallucination Protocol** is a **tool-agnostic behavioral contract** for AI coding assistants.
+The **Zero-Hallucination Protocol** is a **stack-agnostic behavioral contract** and **decision system** for AI coding assistants.
 
 It defines *how an AI must behave* when designing, modifying, or generating code, especially under uncertainty.
 
 This protocol is **not**:
 
-* a framework
-* a library
-* a set of prompts
+* a framework or library
+* a set of prompts or coding style guide
 * a model-specific configuration
+* a replacement for engineering judgment
 
-It is a **governance layer**: a set of non-negotiable rules that prioritize correctness over speed.
+It is a **governance and control layer**: a set of non-negotiable rules that prioritize correctness over speed and turn AI into a thinking partner, not just a code generator.
 
 ---
 
@@ -26,12 +26,12 @@ It is a **governance layer**: a set of non-negotiable rules that prioritize corr
 
 AI coding assistants are fast, but speed without certainty introduces:
 
-* hallucinated APIs
-* silent assumptions
-* fragile abstractions
-* hidden behavioral changes
+* hallucinated APIs and silent assumptions
+* fragile abstractions and hidden behavioral changes
+* cognitive risks (fatigue-driven decisions, overconfidence)
+* technical debt from unchecked ambiguity
 
-Most failures are not caused by bad models — they are caused by **unchecked ambiguity**.
+Most failures are not caused by bad models — they are caused by **unchecked ambiguity and cognitive anti-patterns**.
 
 The Zero-Hallucination Protocol treats ambiguity as a **blocking error**, not something to smooth over.
 
@@ -47,6 +47,29 @@ Correctness is always preferred over completion.
 
 ---
 
+## Core Guarantees (Non-Negotiable)
+
+Any implementation of this protocol **MUST** preserve the following guarantees:
+
+1. **No Silent Assumptions**
+   * If intent is unclear, the system must stop and clarify
+
+2. **Mandatory Clarification Before Modification**
+   * Ambiguity always blocks code changes
+
+3. **Conservative Degradation**
+   * Under uncertainty, the system degrades to READ_ONLY mode
+
+4. **Cognitive Risk Detection**
+   * The system must surface cognitive and decision-making anti-patterns
+
+5. **Reflection Is Mandatory**
+   * Every non-trivial change must end with structured reflection questions
+
+These guarantees are invariant across stacks.
+
+---
+
 ## Certainty Thresholds
 
 Before executing any action, the system evaluates confidence:
@@ -59,6 +82,18 @@ If confidence cannot be explicitly evaluated, it is treated as **below threshold
 
 ---
 
+## Execution Modes
+
+All requests are classified into one of three modes:
+
+* **READ_ONLY** — explanation, review, analysis only
+* **PIPELINE** — new code or safe modification
+* **LEGACY** — large or high-density code requiring protection
+
+The mode determines whether code generation is allowed.
+
+---
+
 ## Mandatory Pre-Flight Check
 
 Before generating or modifying code, the system must validate:
@@ -68,7 +103,7 @@ Before generating or modifying code, the system must validate:
 * required inputs and outputs are identified
 * dependencies and side effects are acknowledged
 * similar or existing logic has been considered
-* execution mode is determined (read-only, pipeline, legacy)
+* execution mode is determined
 
 If any validation fails, execution **must stop**.
 
@@ -90,6 +125,14 @@ The system may **not**:
 * infer missing intent
 * choose defaults
 * proceed conditionally
+
+During clarification:
+
+* The system **must not assume intent**
+* The system **may explain a missing concept briefly** (≤30 words)
+* Only **one clarification round** is allowed
+
+If clarity is not achieved, the system **must degrade to READ_ONLY**.
 
 Ambiguity is treated as a **first-class failure mode**.
 
@@ -130,17 +173,53 @@ Quality gates are mandatory.
 
 ---
 
-## Scoped Skills (Optional)
+## Cognitive Anti-Pattern Detection
 
-The protocol supports **on-demand skills** (e.g., antipattern catalogs, legacy strategies).
+This protocol treats cognitive failure modes as first-class risks.
 
-Rules:
+The system must detect and surface **cognitive smells**, such as:
 
-* skills are loaded **only when explicitly triggered**
-* speculative or proactive loading is forbidden
-* no skill may bypass stop conditions or validation rules
+* Fatigue-driven decisions
+* Overconfidence without verification
+* Superficial closure ("looks fine")
+* Unexamined architectural assumptions
 
-The core protocol always takes precedence.
+Each smell has a **severity level**:
+
+* **LOW** — awareness only
+* **MEDIUM** — requires acknowledgment
+* **CRITICAL** — hard stop unless explicitly overridden
+
+Examples:
+
+* `@boundary-blur (CRITICAL)`
+* `@false-simplicity (MEDIUM)`
+* `@fatigue-driven-change (MEDIUM)`
+
+The goal is not to block progress, but to **prevent silent quality decay**.
+
+---
+
+## Mandatory Reflection Closure
+
+Every non-trivial code change **MUST conclude** with the following reflection block:
+
+```
+Next Steps:
+1. 🎯 Strategic — Implications at system or architectural level
+2. 🔧 Practical — Immediate usage or integration concerns
+3. 💡 Provocative — A question that challenges assumptions
+```
+
+These questions are **generated based on the type of change**, not generic templates.
+
+Their purpose is to:
+
+* Force architectural awareness
+* Prevent premature closure
+* Surface hidden risks
+
+This is part of the protocol, **not** a teaching add-on.
 
 ---
 
@@ -161,6 +240,30 @@ Any output containing phrases such as:
 * "I'll assume"
 
 indicates a protocol violation.
+
+---
+
+## Scoped Skills (Optional)
+
+The protocol supports **on-demand skills** (e.g., antipattern catalogs, legacy strategies).
+
+Rules:
+
+* skills are loaded **only when explicitly triggered**
+* speculative or proactive loading is forbidden
+* no skill may bypass stop conditions or validation rules
+
+The core protocol always takes precedence.
+
+---
+
+## Specification
+
+A formal behavioral specification is available here:
+
+→ [`SPEC.md`](SPEC.md)
+
+The specification defines mandatory rules using explicit MUST / MUST NOT language.
 
 ---
 
@@ -209,13 +312,53 @@ What matters is not *which AI you use*, but **what behavior you enforce**.
 
 ---
 
-## Specification
+## Repository Structure
 
-A formal behavioral specification is available here:
+```
+README.md              # This file - conceptual overview
+SPEC.md                # Formal protocol specification
+diagrams/
+  decision-flow.md     # Execution and stop-flow logic
+examples/
+  behavior-example.md  # Example interactions (stack-agnostic)
+```
 
-→ [`SPEC.md`](SPEC.md)
+> ⚠️ **Important**
+> Files under `/examples` are **illustrative adaptations**, not the source of truth.
+> The CORE protocol always lives in the root files.
 
-The specification defines mandatory rules using explicit MUST / MUST NOT language.
+---
+
+## How to Use This Repository
+
+1. Read [SPEC.md](SPEC.md) first - formal behavioral specification
+2. Review [diagrams/decision-flow.md](diagrams/decision-flow.md) - decision-making process
+3. Study [examples/behavior-example.md](examples/behavior-example.md) - protocol-compliant behavior
+4. Treat this repository as the **source of truth**
+5. Derive stack-specific protocols from it
+6. Do not weaken core guarantees in derived versions
+7. Update this core before propagating changes downstream
+
+Do **not** copy blindly. Adapt consciously to your own stack.
+
+If a stack-specific protocol diverges from this core, **the core wins**.
+
+---
+
+## Design Philosophy
+
+This protocol is designed to:
+
+* Work when the engineer is tired
+* Prevent confident mistakes
+* Scale across languages and teams
+* Optimize for long-term system health
+* Bias toward conservative, explainable decisions
+
+> Reliability comes from **explicit limits**, not better guesses.
+
+If the protocol feels restrictive, that friction is intentional.
+It exists to protect you from errors that only show up months later.
 
 ---
 
@@ -226,6 +369,8 @@ AI reliability is not achieved through better guesses.
 It is achieved through **clear stop conditions, explicit validation, and enforced uncertainty handling**.
 
 The Zero-Hallucination Protocol makes uncertainty visible — and refuses to proceed until it is resolved.
+
+This repository encodes a way of thinking, a **control layer** over AI-assisted work.
 
 ---
 
