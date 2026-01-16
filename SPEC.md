@@ -333,9 +333,9 @@ The closure consists of exactly three questions:
 
 ```
 Next Steps:
-1. 🎯 Strategic — Implications at system or architectural level
-2. 🔧 Practical — Immediate usage or integration concerns
-3. 💡 Provocative — A question that challenges assumptions
+1. Strategic — Implications at system or architectural level
+2. Practical — Immediate usage or integration concerns
+3. Provocative — A question that challenges assumptions
 ```
 
 ### 16.3 Rules
