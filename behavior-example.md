@@ -1,3 +1,8 @@
+> ⚠️ **This is an example adaptation, not the canonical implementation.**  
+> **The CORE protocol is the source of truth.**
+
+---
+
 # Behavior Example — Ambiguity Handling Before Code Generation
 
 This document shows a **realistic, simplified example** of how an AI coding assistant behaves when operating under the **Zero-Hallucination Protocol**.

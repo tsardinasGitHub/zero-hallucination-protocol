@@ -271,7 +271,7 @@ The specification defines mandatory rules using explicit MUST / MUST NOT languag
 
 A simplified, real-world example of protocol-compliant behavior can be found here:
 
-→ [`examples/behavior-example.md`](examples/behavior-example.md)
+→ [`behavior-example.md`](behavior-example.md)
 
 The example demonstrates how the system stops, clarifies intent, and waits before generating code.
 
@@ -297,6 +297,22 @@ The diagram illustrates all validation steps, stop conditions, and confidence th
 
 ---
 
+## Implementation Guidance
+
+For guidance on writing effective AI instructions that implement this protocol:
+
+→ [`IMPLEMENTATION-GUIDELINES.md`](IMPLEMENTATION-GUIDELINES.md)
+
+The guidelines cover LLM optimization, Lost-in-Middle mitigation, token budget management, and best practices for writing unambiguous instructions.
+
+For a concrete implementation example (Elixir/BEAM stack):
+
+→ [`examples/elixir/IMPLEMENTATION-GUIDE.md`](examples/elixir/IMPLEMENTATION-GUIDE.md)
+
+This shows how the general principles are applied to a real-world project with detailed metrics and optimization strategies.
+
+---
+
 ## Tool & Model Independence
 
 This protocol is fully **model-agnostic** and **tool-agnostic**.
@@ -315,12 +331,16 @@ What matters is not *which AI you use*, but **what behavior you enforce**.
 ## Repository Structure
 
 ```
-README.md              # This file - conceptual overview
-SPEC.md                # Formal protocol specification
+README.md                     # This file - conceptual overview
+SPEC.md                       # Formal protocol specification
+IMPLEMENTATION-GUIDELINES.md  # Guide for writing effective AI instructions
+behavior-example.md           # Example interactions (stack-agnostic)
 diagrams/
-  decision-flow.md     # Execution and stop-flow logic
+  decision-flow.md            # Execution and stop-flow logic
 examples/
-  behavior-example.md  # Example interactions (stack-agnostic)
+  elixir/
+    copilot-instructions.md       # Elixir-specific implementation
+    IMPLEMENTATION-GUIDE.md       # Optimization guide for this implementation
 ```
 
 > ⚠️ **Important**
@@ -333,8 +353,10 @@ examples/
 
 1. Read [SPEC.md](SPEC.md) first - formal behavioral specification
 2. Review [diagrams/decision-flow.md](diagrams/decision-flow.md) - decision-making process
-3. Study [examples/behavior-example.md](examples/behavior-example.md) - protocol-compliant behavior
-4. Treat this repository as the **source of truth**
+3. Study [behavior-example.md](behavior-example.md) - protocol-compliant behavior
+4. Read [IMPLEMENTATION-GUIDELINES.md](IMPLEMENTATION-GUIDELINES.md) - how to write effective AI instructions
+5. See [examples/elixir/IMPLEMENTATION-GUIDE.md](examples/elixir/IMPLEMENTATION-GUIDE.md) - concrete implementation example
+6. Treat this repository as the **source of truth**
 5. Derive stack-specific protocols from it
 6. Do not weaken core guarantees in derived versions
 7. Update this core before propagating changes downstream
